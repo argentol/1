@@ -5,18 +5,21 @@ public class Player : MonoBehaviour {
 	public PipeSystem pipeSystem;
 
 	public float velocity;
+	public float rotationVelocity;
 
 	private Pipe currentPipe;
+
 
 	private float distanceTraveled;
 	private float deltaToRotation;
 	private float systemRotation;
-	private float worldRotation;
+	private float worldRotation, avatarRotation;
 
-	private Transform world;
+	private Transform world, rotater;
 
 	private void Start () {
 		world = pipeSystem.transform.parent;
+		rotater = transform.GetChild(0);
 		currentPipe = pipeSystem.SetupFirstPipe();
 		SetupCurrentPipe();
 	}
@@ -35,6 +38,22 @@ public class Player : MonoBehaviour {
 
 		pipeSystem.transform.localRotation =
 			Quaternion.Euler(0f, 0f, systemRotation);
+		UpdateAvatarRotation();
+	}
+
+	private void UpdateAvatarRotation()
+	{
+		avatarRotation +=
+			rotationVelocity * Time.deltaTime * Input.GetAxis("Horizontal");
+		if (avatarRotation < 0f)
+		{
+			avatarRotation += 360f;
+		}
+		else if (avatarRotation >= 360f)
+		{
+			avatarRotation -= 360f;
+		}
+		rotater.localRotation = Quaternion.Euler(avatarRotation, 0f, 0f);
 	}
 
 	private void SetupCurrentPipe () {
