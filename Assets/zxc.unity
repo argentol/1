@@ -269,7 +269,7 @@ MonoBehaviour:
   ringDistance: 1
   minCurveRadius: 4
   maxCurveRadius: 20
-  minCurveSegmentCount: 4
+  minCurveSegmentCount: 5
   maxCurveSegmentCount: 10
 --- !u!4 &988916289
 Transform:

@@ -8,12 +8,16 @@ public class PipeSystem : MonoBehaviour {
 
 	private Pipe[] pipes;
 
+	private int WhitePipe = 1;
+
 	private void Awake () {
 		pipes = new Pipe[pipeCount];
 		for (int i = 0; i < pipes.Length; i++) {
 			Pipe pipe = pipes[i] = Instantiate<Pipe>(pipePrefab);
 			pipe.transform.SetParent(transform, false);
-			pipe.Generate();
+			pipe.Generate(WhitePipe);
+			WhitePipe++;
+			print(WhitePipe);
 			if (i > 0) {
 				pipe.AlignWith(pipes[i - 1]);
 			}
@@ -29,7 +33,8 @@ public class PipeSystem : MonoBehaviour {
 	public Pipe SetupNextPipe () {
 		ShiftPipes();
 		AlignNextPipeWithOrigin();
-		pipes[pipes.Length - 1].Generate();
+		WhitePipe++;
+		pipes[pipes.Length - 1].Generate(WhitePipe);
 		pipes[pipes.Length - 1].AlignWith(pipes[pipes.Length - 2]);
 		transform.localPosition = new Vector3(0f, -pipes[1].CurveRadius);
 		return pipes[1];
@@ -51,11 +56,19 @@ public class PipeSystem : MonoBehaviour {
 			{
 				pipes[i].transform.SetParent(transformToAlign);
 			}
-			//Material material = pipes[i].GetComponent<Renderer>().material;
-			//material.color = new Color(Random.value, Random.value, Random.value, 1);
+		}
+		if (WhitePipe % 2 == 0)
+		{
+			Material material = pipes[pipes.Length - 1].GetComponent<Renderer>().material;
+			material.color = new Color(Random.value, Random.value, Random.value, 1);
+		}
+		else
+        {
+			Material material = pipes[pipes.Length - 1].GetComponent<Renderer>().material;
+			material.color = Color.white;
 		}
 
-		transformToAlign.localPosition = Vector3.zero;
+        transformToAlign.localPosition = Vector3.zero;
 		transformToAlign.localRotation = Quaternion.identity;
 
 		for (int i = 0; i < pipes.Length; i++)
