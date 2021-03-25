@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 576283744}
   - component: {fileID: 576283743}
   - component: {fileID: 576283745}
+  - component: {fileID: 576283746}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -185,6 +186,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &576283746
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576283742}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &952657195
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,6 +244,7 @@ GameObject:
   - component: {fileID: 988916291}
   - component: {fileID: 988916290}
   - component: {fileID: 988916292}
+  - component: {fileID: 988916293}
   m_Layer: 0
   m_Name: Pipe
   m_TagString: Untagged
@@ -249,11 +265,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pipeRadius: 1
-  pipeSegmentCount: 10
+  pipeSegmentCount: 20
   ringDistance: 1
   minCurveRadius: 4
   maxCurveRadius: 20
-  minCurveSegmentCount: 8
+  minCurveSegmentCount: 4
   maxCurveSegmentCount: 10
 --- !u!4 &988916289
 Transform:
@@ -327,9 +343,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!54 &988916293
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988916287}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1032738344
 GameObject:
   m_ObjectHideFlags: 0
@@ -5113,7 +5145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pipePrefab: {fileID: 988916288}
-  pipeCount: 6
+  pipeCount: 15
 --- !u!4 &1105136081
 Transform:
   m_ObjectHideFlags: 0
@@ -9890,6 +9922,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1431354367}
+  - component: {fileID: 1431354369}
+  - component: {fileID: 1431354368}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Untagged
@@ -9914,6 +9948,36 @@ Transform:
   m_Father: {fileID: 1467488343}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1431354368
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431354366}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!54 &1431354369
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431354366}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1467488342
 GameObject:
   m_ObjectHideFlags: 0
@@ -10001,7 +10065,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739785651}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1739785653
 Camera:
   m_ObjectHideFlags: 0

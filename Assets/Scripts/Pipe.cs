@@ -45,15 +45,16 @@ public class Pipe : MonoBehaviour {
 		mesh.name = "Pipe";
 	}
 
+	private int whitePipe = 1;
 	public void Generate () {
-		curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
-		curveSegmentCount =
-			Random.Range(minCurveSegmentCount, maxCurveSegmentCount + 1);
-		mesh.Clear();
-        //SetUV();
-        SetVertices();
-		SetTriangles();
-		mesh.RecalculateNormals();
+			curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
+			curveSegmentCount =
+				Random.Range(minCurveSegmentCount, maxCurveSegmentCount + 1);
+			mesh.Clear();
+			//SetUV();
+			SetVertices();
+			SetTriangles();
+			mesh.RecalculateNormals();
 	}
 
     //private void SetUV()

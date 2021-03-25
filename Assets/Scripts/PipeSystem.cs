@@ -51,6 +51,8 @@ public class PipeSystem : MonoBehaviour {
 			{
 				pipes[i].transform.SetParent(transformToAlign);
 			}
+			//Material material = pipes[i].GetComponent<Renderer>().material;
+			//material.color = new Color(Random.value, Random.value, Random.value, 1);
 		}
 
 		transformToAlign.localPosition = Vector3.zero;

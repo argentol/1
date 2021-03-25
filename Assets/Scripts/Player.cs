@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 
@@ -40,6 +42,10 @@ public class Player : MonoBehaviour {
 			Quaternion.Euler(0f, 0f, systemRotation);
 		UpdateAvatarRotation();
 	}
+	private void OnTriggerEnter(Collider other)
+	{
+		print(other.gameObject.name);
+	}
 
 	private void UpdateAvatarRotation()
 	{
@@ -55,6 +61,7 @@ public class Player : MonoBehaviour {
 		}
 		rotater.localRotation = Quaternion.Euler(avatarRotation, 0f, 0f);
 	}
+
 
 	private void SetupCurrentPipe () {
 		deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.CurveRadius);
