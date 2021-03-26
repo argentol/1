@@ -11,7 +11,7 @@ public class Pipe : MonoBehaviour {
 	public int minCurveSegmentCount, maxCurveSegmentCount;
 
 	private float curveRadius;
-	private int curveSegmentCount;
+	public int curveSegmentCount;
 
 	private Mesh mesh;
 	private Vector3[] vertices;
@@ -44,23 +44,34 @@ public class Pipe : MonoBehaviour {
 		GetComponent<MeshFilter>().mesh = mesh = new Mesh();
 		mesh.name = "Pipe";
 	}
-	public void Generate (int white) {
-		if (white % 2 == 0)
+	public void Generate (int white, bool NewLevel) {
+		if (NewLevel)
 		{
-			curveSegmentCount = 1;
+			curveSegmentCount = maxCurveSegmentCount+1;
 			curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
+			NewLevel = false;
 		}
+
 		else
 		{
-			curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
-			curveSegmentCount =
-				Random.Range(minCurveSegmentCount, maxCurveSegmentCount + 1);
+			if (white  % 2 == 0)
+			{
+				curveSegmentCount = 1;
+				curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
+			}
+			else
+			{
+				curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
+				curveSegmentCount =
+					Random.Range(minCurveSegmentCount, maxCurveSegmentCount + 1);	
+			}
 		}
 			mesh.Clear();
 			//SetUV();
 			SetVertices();
 			SetTriangles();
 			mesh.RecalculateNormals();
+		
 	}
 
     //private void SetUV()
