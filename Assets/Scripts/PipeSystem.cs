@@ -25,21 +25,24 @@ public class PipeSystem : MonoBehaviour {
 	public Material Color2Button;
 	public Material Color3Button;
 
+	public GameObject Player;
+	public GameObject TextLose;
 
 	int renewColors;
 
-	bool StartOfGame = false;
-	private int newLevel = 0;
+	public bool StartOfGame = false;
+	private int newLevel = 10;
+	private int newLevel1 = 0;
 
 	bool WhiteRepeat = false;
-	public bool NewLevel = true;
+    private bool NewLevel = false;
 	private void Awake () {
 		randomizeOfColors();
 		pipes = new Pipe[pipeCount];
 		for (int i = 0; i < pipes.Length; i++) {
 			Pipe pipe = pipes[i] = Instantiate<Pipe>(pipePrefab);
 			pipe.transform.SetParent(transform, false);
-			pipe.Generate(WhitePipe,NewLevel);
+			pipe.Generate(WhitePipe,NewLevel, StartOfGame);
             WhitePipe++;
             if (i > 0) {
 				pipe.AlignWith(pipes[i - 1]);
@@ -51,42 +54,75 @@ public class PipeSystem : MonoBehaviour {
 		AlignNextPipeWithOrigin(WhitePipe, newLevel);
         //randomizeOfColors();
 		ColoringOfButtons();
-    }
+		pipes[pipeCount-1].GetComponent<Renderer>().material.color = Color.red;
+		StartOfGame = false;
+	}
 
 	
     void FixedUpdate()
     {
-		if ((pipes[1].GetComponent<Renderer>().material.color == Color.black) /*&& (pipes[1].GetComponent<Renderer>().material.color == Color.white)*/)
+		IsLose();
+		if ((pipes[0].GetComponent<Renderer>().material.color == Color.white) && (StartOfGame = false))
+			StartOfGame = true;
+		if ((pipes[1].GetComponent<Renderer>().material.color == Color.white) && (newLevel == 9) /*&& (pipes[1].GetComponent<Renderer>().material.color == Color.white)*/)
 		{
-			print("DADA");
 			ColoringOfButtons();
+			//ColoringOfPipes();
 		}
-		if (newLevel == 0)
+
+		if ((pipes[1].GetComponent<Renderer>().material.color == Color.white) && (newLevel == 0)  /*&& (pipes[1].GetComponent<Renderer>().material.color == Color.white)*/)
 		{
-			//if(pipes[1].GetComponent<Renderer>().material.name == cheating.GetComponent<Renderer>().material.name)
-   //         {
-   //             Button1.image.color = Color1Button.color;
-   //             Button2.image.color = Color2Button.color;
-   //             Button3.image.color = Color3Button.color;
-   //         }
 			randomizeOfColors();
 			newLevel = 10;
 			NewLevel = true;
+			ColoringOfPipes();
+			ColoringOfButtons();
 		}
+		//if (newLevel == 0)
+		//{
+		//	//if(pipes[1].GetComponent<Renderer>().material.name == cheating.GetComponent<Renderer>().material.name)
+  // //         {
+  // //             Button1.image.color = Color1Button.color;
+  // //             Button2.image.color = Color2Button.color;
+  // //             Button3.image.color = Color3Button.color;
+  // //         }
+		//	randomizeOfColors();
+		//	newLevel = 10;
+		//	NewLevel = true;
+		//}
 		if ((pipes[1].GetComponent<Renderer>().material.color == Color.white) && (WhiteRepeat == false))
 		{
 			newLevel--;
 			WhiteRepeat = true;
-			print("zxc");
 			NewLevel = false;
+		}
+		if ((pipes[1].GetComponent<Renderer>().material.color == Color.white) && (newLevel1 == 0))
+		{
+			newLevel++;
+			NewLevel = true;
+			newLevel1 = -10;
 		}
 		if (!(pipes[1].GetComponent<Renderer>().material.color == Color.white))
 		{
 			WhiteRepeat = false;
 			NewLevel = false;
 		}
-		print(newLevel);
-	}
+		//print(newLevel);
+        print("Start of game " + StartOfGame);
+        print("NewLevel " + NewLevel);
+		//print(newLevel);
+    }
+
+	//void ColoringOfPipes()
+ //   {
+	//	for (int i = 0; i < pipes.Length; i++)
+ //       {
+	//		if (i % 2 != 0)
+	//			pipes[i].GetComponent<Renderer>().material.color = Color.red;
+	//		else
+	//			pipes[i].GetComponent<Renderer>().material.color = Color.white;
+	//	}
+	//}
 
     void randomizeOfColors()
     {
@@ -98,9 +134,8 @@ public class PipeSystem : MonoBehaviour {
         //Color3Button.color = new Color(0, 1, 1, 1);
         Color1Button.color = Color1.color;
         Color2Button.color = Color2.color;
-        Color3Button.color = Color3.color;
-
-    }
+		Color3Button.color = Color3.color;
+	}
 
     public Pipe SetupFirstPipe () {
 		transform.localPosition = new Vector3(0f, -pipes[1].CurveRadius);
@@ -111,7 +146,7 @@ public class PipeSystem : MonoBehaviour {
 		ShiftPipes();
 		AlignNextPipeWithOrigin(WhitePipe, newLevel);
         WhitePipe++;
-        pipes[pipes.Length - 1].Generate(WhitePipe, NewLevel);
+        pipes[pipes.Length - 1].Generate(WhitePipe, NewLevel, StartOfGame);
 		pipes[pipes.Length - 1].AlignWith(pipes[pipes.Length - 2]);
 		transform.localPosition = new Vector3(0f, -pipes[1].CurveRadius);
 		return pipes[1];
@@ -127,11 +162,38 @@ public class PipeSystem : MonoBehaviour {
 
 	int RandomMaterial = 1;
 
+	private void ColoringOfPipes()
+    {
+		print("Hello");
+		for (int i = 1; i < pipes.Length; i++)
+			if (i % 2 == 0)
+			{
+				RandomMaterial = Random.Range(1, 4);
+				if (RandomMaterial  == 1)
+					pipes[i].GetComponent<Renderer>().material.color = Color1Button.color;
+				if (RandomMaterial == 2)
+					pipes[i].GetComponent<Renderer>().material.color = Color2Button.color;
+				if (RandomMaterial == 3)
+					pipes[i].GetComponent<Renderer>().material.color = Color3Button.color;
+			}
+			else
+				pipes[i].GetComponent<Renderer>().material.color = Color.white;
+
+	}
 	private void ColoringOfButtons()
     {
-		Button1.image.color = Color1Button.color;
-		Button2.image.color = Color2Button.color;
-		Button3.image.color = Color3Button.color;
+        Button1.image.color = Color1Button.color;
+        Button2.image.color = Color2Button.color;
+        Button3.image.color = Color3Button.color;
+    }
+
+	private void IsLose()
+    {
+		if ((pipes[1].GetComponent<Renderer>().material.color != Color.red) && (pipes[1].GetComponent<Renderer>().material.color != Color.black) && (pipes[1].GetComponent<Renderer>().material.color != Color.white))
+		{
+				if (pipes[1].GetComponent<Renderer>().material.color != Player.GetComponent<Renderer>().material.color)
+					TextLose.gameObject.SetActive(true);	
+        }
 	}
 	private void AlignNextPipeWithOrigin (int WhitePipe, int newLevel) {
 		Transform transformToAlign = pipes[1].transform;
@@ -145,7 +207,7 @@ public class PipeSystem : MonoBehaviour {
 		if (newLevel == 0 )
 		{
 			Material material = pipes[pipes.Length - 1].GetComponent<Renderer>().material;
-			material.color = Color.black;
+			material.color = Color.white;
 			NewLevel = false;
 		}
 		else
